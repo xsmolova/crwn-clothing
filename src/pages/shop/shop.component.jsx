@@ -27,11 +27,27 @@ class ShopPage extends Component {
         // whenever the collectionRef updates or code gets run for the first time,
         // this collectionRef send us the snapshot representing the code of our
         // collection objects array at the time when this code renders
-        this.unsubscribeFromSnapshot = collectionRef.onSnapshot(async snapshot => {
+       
+        /*  this.unsubscribeFromSnapshot = collectionRef.onSnapshot(async snapshot => {
+            const collectionsMap = convertCollectionsSnpshotToMap(snapshot);
+            updateCollections(collectionsMap)
+            this.setState({loading:false});
+        }); */
+
+        // we can use this but page wouldnt be refreshed with new data
+        // since we are not subscribing on event onSnapshot. It will be filled with data only on componentDidMount 
+    
+        collectionRef.get().then(snapshot => {
             const collectionsMap = convertCollectionsSnpshotToMap(snapshot);
             updateCollections(collectionsMap)
             this.setState({loading:false});
         });
+
+        // Making rest calls - firestore https://firebase.google.com/docs/firestore/use-rest-api
+        
+        /* fetch('https://firestore.googleapis.com/v1/projects/crown-db-275ad/databases/(default)/documents/collections')
+        .then(response => response.json())
+        .then(collections => console.log(collections)); */
     }
 
     componentWillUnmount() {
