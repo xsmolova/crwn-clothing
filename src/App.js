@@ -26,6 +26,7 @@ class App extends Component {
 
     const {setCurrentUser} = this.props;
 
+    //auth.onAuthStateChanged returns a function we can call to close subscription 
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
@@ -47,8 +48,8 @@ class App extends Component {
     });
   }
 
-
   componentWillUnmount() {
+    // closing subscription
     this.unsubscribeFromAuth();
   }
 
